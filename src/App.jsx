@@ -1,3 +1,5 @@
+import { nonFusionnables } from "./data/fusionExceptions";
+
 import React, { useState } from "react";
 
 // ----------------------
@@ -90,9 +92,18 @@ export default function App() {
   const [selected, setSelected] = useState("");
 
   const addMonster = () => {
-    if (!selected) return;
-    setInventory([...inventory, selected]);
-  };
+  if (!selected) return;
+
+  const monsterData = monsters.find(m => m.name === selected);
+
+  setInventory([
+    ...inventory,
+    {
+      name: selected,
+      fusion: monsterData?.fusion !== false
+    }
+  ]);
+};
 
   const removeMonster = (index) => {
     const copy = [...inventory];
