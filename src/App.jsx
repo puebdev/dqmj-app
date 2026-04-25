@@ -1,35 +1,97 @@
 import React, { useState } from "react";
 
+// ----------------------
+// BASE MONSTRES (extrait)
+// ----------------------
 const monsters = [
-  { name: "Gluant", family: "Gluant", rank: "F" },
-  { name: "Gluante", family: "Gluant", rank: "E" },
-  { name: "Gigluant", family: "Gluant", rank: "D" },
-  { name: "Gigluante", family: "Gluant", rank: "D" },
-  { name: "Roi Gluant", family: "Gluant", rank: "C" },
-  { name: "Gluant de métal", family: "Gluant", rank: "D" },
-  { name: "Gluant de mercure", family: "Gluant", rank: "C" },
-  { name: "Vampivol", family: "Démon", rank: "F" },
-  { name: "Scorpion", family: "Naturel", rank: "F" },
-  { name: "Komodor", family: "Dragon", rank: "F" }
+  "Gluant",
+  "Gigluant",
+  "Roi Gluant",
+  "Gluant de métal",
+  "Gluant de mercure",
+  "Komodor",
+  "Faune",
+  "Lézard Argon",
+  "Grand Lézard Argon",
+  "Frou-Frou",
+  "Fri-Fri",
+  "Vampivol"
 ];
 
+// ----------------------
+// FUSIONS RÉELLES
+// ----------------------
+const fusions = [
+  // Roi Gluant
+  {
+    result: "Roi Gluant",
+    recipe: ["Gigluant", "Gigluant"]
+  },
+  {
+    result: "Roi Gluant",
+    recipe: ["Gluant", "Gluant", "Gluant", "Gluant"]
+  },
+
+  // Lézard Argon
+  {
+    result: "Lézard Argon",
+    recipe: ["Komodor", "Faune"]
+  },
+
+  // Grand Lézard Argon
+  {
+    result: "Grand Lézard Argon",
+    recipe: [
+      "Lézard Argon",
+      "Lézard Argon",
+      "Lézard Argon",
+      "Lézard Argon"
+    ]
+  },
+
+  // Frou-Frou
+  {
+    result: "Frou-Frou",
+    recipe: [
+      "Lézard Argon",
+      "Lézard Argon",
+      "Lézard Argon",
+      "Grand Lézard Argon"
+    ]
+  },
+
+  // Fri-Fri
+  {
+    result: "Fri-Fri",
+    recipe: ["Komodor", "Vampivol"]
+  }
+];
+
+// ----------------------
+// CHECK FUSION
+// ----------------------
+function canMakeFusion(inventory, recipe) {
+  const temp = [...inventory];
+
+  for (let r of recipe) {
+    const index = temp.indexOf(r);
+    if (index === -1) return false;
+    temp.splice(index, 1);
+  }
+
+  return true;
+}
+
+// ----------------------
+// APP
+// ----------------------
 export default function App() {
   const [inventory, setInventory] = useState([]);
   const [selected, setSelected] = useState("");
-  const [polarity, setPolarity] = useState("+");
-  const [search, setSearch] = useState("");
-  const [familyFilter, setFamilyFilter] = useState("all");
 
   const addMonster = () => {
     if (!selected) return;
-
-    setInventory([
-      ...inventory,
-      {
-        name: selected,
-        polarity
-      }
-    ]);
+    setInventory([...inventory, selected]);
   };
 
   const removeMonster = (index) => {
@@ -38,108 +100,44 @@ export default function App() {
     setInventory(copy);
   };
 
-  const canFuse = (m1, m2) => {
-    if (!m1 || !m2) return false;
-    return m1 !== m2; // simplifié pour l’instant
-  };
-
-  const getSuggestions = () => {
-    const names = inventory.map((m) => m.name);
-    const suggestions = [];
-
-    if (names.filter((n) => n === "Gigluant").length >= 2) {
-      suggestions.push("Roi Gluant");
-    }
-
-    if (names.filter((n) => n === "Gluant").length >= 4) {
-      suggestions.push("Roi Gluant (méthode 4)");
-    }
-
-    if (names.filter((n) => n === "Gluant de mercure").length >= 4) {
-      suggestions.push("Roi Gluant de métal");
-    }
-
-    if (
-      names.includes("Gluant") &&
-      names.includes("Gigluant")
-    ) {
-      suggestions.push("Gigluante");
-    }
-
-    return suggestions;
+  const getFusions = () => {
+    return fusions
+      .filter((f) => canMakeFusion(inventory, f.recipe))
+      .map((f) => ({
+        result: f.result,
+        recipe: f.recipe
+      }));
   };
 
   return (
-    <div style={{ padding: 20, maxWidth: 600, margin: "auto" }}>
-      <h1>Fusion DQMJ</h1>
+    <div style={{ padding: 20 }}>
+      <h1>Fusion DQMJ 2.1</h1>
 
-      {/* Recherche */}
-      <input
-        placeholder="Rechercher un monstre"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ width: "100%", marginBottom: 10 }}
-      />
-
-      {/* Filtre famille */}
-      <select
-        value={familyFilter}
-        onChange={(e) => setFamilyFilter(e.target.value)}
-      >
-        <option value="all">Toutes familles</option>
-        <option value="Gluant">Gluant</option>
-        <option value="Dragon">Dragon</option>
-        <option value="Démon">Démon</option>
-        <option value="Naturel">Naturel</option>
-      </select>
-
-      <br /><br />
-
-      {/* Sélection monstre */}
       <select onChange={(e) => setSelected(e.target.value)}>
-        <option value="">Choisir un monstre</option>
-        {monsters
-          .filter((m) =>
-            m.name.toLowerCase().includes(search.toLowerCase())
-          )
-          .filter(
-            (m) => familyFilter === "all" || m.family === familyFilter
-          )
-          .map((m) => (
-            <option key={m.name} value={m.name}>
-              {m.name} ({m.rank})
-            </option>
-          ))}
-      </select>
-
-      {/* Polarité */}
-      <select
-        value={polarity}
-        onChange={(e) => setPolarity(e.target.value)}
-      >
-        <option value="+">+</option>
-        <option value="-">-</option>
-        <option value="0">Neutre</option>
+        <option value="">Choisir</option>
+        {monsters.map((m) => (
+          <option key={m}>{m}</option>
+        ))}
       </select>
 
       <button onClick={addMonster}>Ajouter</button>
 
       <h2>Inventaire</h2>
-
       {inventory.map((m, i) => (
         <div key={i}>
-          {m.name} ({m.polarity})
-          <button onClick={() => removeMonster(i)}>X</button>
+          {m} <button onClick={() => removeMonster(i)}>X</button>
         </div>
       ))}
 
-      <h2>Suggestions</h2>
+      <h2>Fusions possibles</h2>
 
-      {getSuggestions().length === 0 && <p>Aucune</p>}
+      {getFusions().length === 0 && <p>Aucune</p>}
 
-      {getSuggestions().map((s, i) => (
-        <div key={i}>➡ {s}</div>
+      {getFusions().map((f, i) => (
+        <div key={i}>
+          🔥 {f.result} ← {f.recipe.join(" + ")}
+        </div>
       ))}
     </div>
   );
-}
+      }
