@@ -178,7 +178,7 @@ export default function App() {
   const [selected, setSelected] = useState("");
   const [polarity, setPolarity] = useState("neutral");
   
-  const addMonster = () => {
+const addMonster = () => {
   if (!selected) return;
 
   setInventory([
@@ -186,9 +186,10 @@ export default function App() {
   {
     name: selected,
     fusion: !nonFusionnables.includes(selected),
-    polarity: monsterMeta[selected]?.polarity: polarity
+    polarity: polarity
   }
 ]);
+
 };
 
   const removeMonster = (index) => {
