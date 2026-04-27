@@ -151,7 +151,7 @@ const addMonster = () => {
   ...inventory,
   {
     name: selected,
-    fusion: !nonFusionnables.includes(selected),
+    fusion: true,
     polarity: polarity
   }
 ]);
