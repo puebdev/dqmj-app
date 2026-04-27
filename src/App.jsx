@@ -223,12 +223,14 @@ export default function App() {
       {fusionResults.length === 0 && <p>Aucune</p>}
 
 {fusionResults.map((f, i) => (
-  <div key={i}>
+  <div key={i} style={{ marginBottom: 10 }}>
     {f.valid ? "✅" : "❌"} {f.result} ← {f.recipe.join(" + ")}
 
     {!f.valid && (
       <div style={{ color: "red", fontSize: 12 }}>
         {f.reasons.join(" / ")}
+        <br />
+        💡 {getSuggestion(f.reasons, f)}
       </div>
     )}
   </div>
