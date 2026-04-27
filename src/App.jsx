@@ -176,7 +176,8 @@ function getFusionResults(inventory, fusions) {
 export default function App() {
   const [inventory, setInventory] = useState([]);
   const [selected, setSelected] = useState("");
-
+  const [polarity, setPolarity] = useState("neutral");
+  
   const addMonster = () => {
   if (!selected) return;
 
