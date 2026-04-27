@@ -132,15 +132,14 @@ export default function App() {
   const addMonster = () => {
   if (!selected) return;
 
-  const monsterData = monsters.find(m => m.name === selected);
-
   setInventory([
-    ...inventory,
-    {
-      name: selected,
-      fusion: monsterData?.fusion !== false
-    }
-  ]);
+  ...inventory,
+  {
+    name: selected,
+    fusion: !nonFusionnables.includes(selected),
+    polarity: "neutral"
+  }
+]);
 };
 
   const removeMonster = (index) => {
