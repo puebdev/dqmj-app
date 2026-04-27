@@ -186,7 +186,7 @@ export default function App() {
   {
     name: selected,
     fusion: !nonFusionnables.includes(selected),
-    polarity: monsterMeta[selected]?.polarity || "neutral"
+    polarity: monsterMeta[selected]?.polarity: polarity
   }
 ]);
 };
