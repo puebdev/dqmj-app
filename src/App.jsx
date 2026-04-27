@@ -116,6 +116,22 @@ function canMakeFusion(inventory, recipe) {
   return true;
 }
 
+function getSuggestion(reasons, fusion) {
+  if (reasons.includes("Manque des monstres")) {
+    return "Ajoute les monstres manquants";
+  }
+
+  if (reasons.includes("Polarité incompatible")) {
+    return "Ajoute un monstre de polarité différente";
+  }
+
+  if (reasons.includes("Monstre non fusionnable")) {
+    return "Remplace un monstre non fusionnable";
+  }
+
+  return "";
+}
+
 // ----------------------
 // APP
 // ----------------------
