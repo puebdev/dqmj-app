@@ -87,6 +87,44 @@ function canMakeFusion(inventory, recipe) {
 // ----------------------
 // APP
 // ----------------------
+function analyzeFusion(inventory, fusion) {
+  let reasons = [];
+
+  const temp = [...inventory];
+
+  for (let r of fusion.recipe) {
+    const index = temp.findIndex(m => m.name === r);
+    if (index === -1) {
+      reasons.push("Manque des monstres");
+      return { valid: false, reasons };
+    }
+    temp.splice(index, 1);
+  }
+
+  const used = fusion.recipe.map(r =>
+    inventory.find(m => m.name === r)
+  );
+
+  if (used.some(m => m && !m.fusion)) {
+    reasons.push("Monstre non fusionnable");
+  }
+
+  return {
+    valid: reasons.length === 0,
+    reasons
+  };
+}
+
+function getFusionResults(inventory, fusions) {
+  return fusions.map(f => {
+    const result = analyzeFusion(inventory, f);
+    return {
+      ...f,
+      valid: result.valid,
+      reasons: result.reasons
+    };
+  });
+}
 export default function App() {
   const [inventory, setInventory] = useState([]);
   const [selected, setSelected] = useState("");
