@@ -14,22 +14,6 @@ const monsterMeta = {
 
   "Faune": { polarity: "neutral" }
 };
-const monsterMeta = {
-  "Gluant": { polarity: "neutral" },
-  "Gigluant": { polarity: "neutral" },
-  "Roi Gluant": { polarity: "neutral" },
-  "Gluant de métal": { polarity: "neutral" },
-
-  "Komodor": { polarity: "positive" },
-  "Lézard Argon": { polarity: "positive" },
-  "Grand Lézard Argon": { polarity: "positive" },
-  "Frou-Frou": { polarity: "positive" },
-
-  "Vampivol": { polarity: "negative" },
-  "Fri-Fri": { polarity: "negative" },
-
-  "Faune": { polarity: "neutral" }
-};
 import { nonFusionnables } from "./data/fusionExceptions";
 
 import React, { useState } from "react";
