@@ -173,13 +173,19 @@ export default function App() {
 
       <h2>Fusions possibles</h2>
 
-      {getFusions().length === 0 && <p>Aucune</p>}
+      {fusionResults.length === 0 && <p>Aucune</p>}
 
-      {getFusions().map((f, i) => (
-        <div key={i}>
-          🔥 {f.result} ← {f.recipe.join(" + ")}
-        </div>
-      ))}
+{fusionResults.map((f, i) => (
+  <div key={i}>
+    {f.valid ? "✅" : "❌"} {f.result} ← {f.recipe.join(" + ")}
+
+    {!f.valid && (
+      <div style={{ color: "red", fontSize: 12 }}>
+        {f.reasons.join(" / ")}
+      </div>
+    )}
+  </div>
+))}
     </div>
   );
       }
