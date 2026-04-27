@@ -210,6 +210,12 @@ export default function App() {
         ))}
       </select>
 
+      <select onChange={(e) => setPolarity(e.target.value)}>
+  <option value="positive">+</option>
+  <option value="negative">-</option>
+  <option value="neutral">Neutre</option>
+</select>
+      
       <button onClick={addMonster}>Ajouter</button>
 
       <h2>Inventaire</h2>
