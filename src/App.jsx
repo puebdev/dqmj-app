@@ -111,14 +111,7 @@ export default function App() {
     setInventory(copy);
   };
 
-  const getFusions = () => {
-    return fusions
-      .filter((f) => canMakeFusion(inventory, f.recipe))
-      .map((f) => ({
-        result: f.result,
-        recipe: f.recipe
-      }));
-  };
+  const fusionResults = getFusionResults(inventory, fusions);
 
   return (
     <div style={{ padding: 20 }}>
