@@ -1,5 +1,3 @@
-import { nonFusionnables } from "./data/fusionExceptions";
-
 import React, { useState } from "react";
 
 // ----------------------
