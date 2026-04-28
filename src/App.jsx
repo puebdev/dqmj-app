@@ -85,16 +85,29 @@ function findFusionForMonster(name) {
   return fusions.find(f => f.result === name);
 }
 
+function buildChain(monster, depth = 0) {
+  if (depth > 3) return []; // limite anti boucle
+
+  const fusion = fusions.find(f => f.result === monster);
+  if (!fusion) return [];
+
+  let result = [`${monster} ← ${fusion.recipe.join(" + ")}`];
+
+  fusion.recipe.forEach(m => {
+    const sub = buildChain(m, depth + 1);
+    result = result.concat(sub);
+  });
+
+  return result;
+}
+
 function getFusionChain(missing) {
   let chains = [];
 
   missing.forEach(monster => {
-    const fusion = findFusionForMonster(monster);
-
-    if (fusion) {
-      chains.push(
-        `${monster} ← ${fusion.recipe.join(" + ")}`
-      );
+    const chain = buildChain(monster);
+    if (chain.length > 0) {
+      chains.push(...chain);
     }
   });
 
