@@ -3,20 +3,7 @@ import React, { useState } from "react";
 // ----------------------
 // BASE MONSTRES (extrait)
 // ----------------------
-const monsters = [
-  "Gluant",
-  "Gigluant",
-  "Roi Gluant",
-  "Gluant de métal",
-  "Gluant de mercure",
-  "Komodor",
-  "Faune",
-  "Lézard Argon",
-  "Grand Lézard Argon",
-  "Frou-Frou",
-  "Fri-Fri",
-  "Vampivol"
-];
+import monsters from "./data/monsters";
 
 // ----------------------
 // FUSIONS RÉELLES
