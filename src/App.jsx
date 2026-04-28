@@ -190,20 +190,27 @@ function getFusionResults(inventory, fusions) {
 }
 export default function App() {
   const [inventory, setInventory] = useState([]);
+  const [team, setTeam] = useState([]);
+const [bench, setBench] = useState([]);
   const [selected, setSelected] = useState("");
   const [polarity, setPolarity] = useState("neutral");
   
 const addMonster = () => {
   if (!selected) return;
 
-  setInventory([
-  ...inventory,
-  {
-    name: selected,
-    fusion: true,
-    polarity: polarity
-  }
-]);
+  const newMonster = {
+  name: selected,
+  fusion: true,
+  polarity: polarity
+};
+
+if (team.length < 3) {
+  setTeam([...team, newMonster]);
+} else if (bench.length < 3) {
+  setBench([...bench, newMonster]);
+} else {
+  setInventory([...inventory, newMonster]);
+       }
 
 };
 
@@ -213,7 +220,8 @@ const addMonster = () => {
     setInventory(copy);
   };
 
-  const fusionResults = getFusionResults(inventory, fusions);
+  const allMonsters = [...team, ...bench, ...inventory];
+const fusionResults = getFusionResults(allMonsters, fusions);
 
   return (
     <div style={{ padding: 20 }}>
@@ -234,13 +242,26 @@ const addMonster = () => {
       
       <button onClick={addMonster}>Ajouter</button>
 
-      <h2>Inventaire</h2>
-      {inventory.map((m, i) => (
-        <div key={i}>
-  {m.name} ({m.polarity})
-  <button onClick={() => removeMonster(i)}>X</button>
-</div>
-      ))}
+      <h2>Équipe</h2>
+{team.map((m, i) => (
+  <div key={i}>
+    {m.name} ({m.polarity})
+  </div>
+))}
+
+<h2>Remplaçants</h2>
+{bench.map((m, i) => (
+  <div key={i}>
+    {m.name} ({m.polarity})
+  </div>
+))}
+
+<h2>Réserve</h2>
+{inventory.map((m, i) => (
+  <div key={i}>
+    {m.name} ({m.polarity})
+  </div>
+))}
 
       <h2>Fusions possibles</h2>
 
