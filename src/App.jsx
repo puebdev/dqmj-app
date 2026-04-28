@@ -187,9 +187,13 @@ const addMonster = () => {
   if (!selected) return;
 
   const newMonster = {
+  const monsterData = monsters.find(m => m.name === selected);
+
+const newMonster = {
   name: selected,
   fusion: true,
-  polarity: polarity
+  polarity: monsterData?.polarity || polarity
+};
 };
 
 if (team.length < 3) {
