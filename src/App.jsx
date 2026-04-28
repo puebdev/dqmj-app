@@ -81,14 +81,44 @@ function canMakeFusion(inventory, recipe) {
 
   return true;
 }
+function findFusionForMonster(name) {
+  return fusions.find(f => f.result === name);
+}
 
+function getFusionChain(missing) {
+  let chains = [];
+
+  missing.forEach(monster => {
+    const fusion = findFusionForMonster(monster);
+
+    if (fusion) {
+      chains.push(
+        `${monster} ← ${fusion.recipe.join(" + ")}`
+      );
+    }
+  });
+
+  return chains;
+}
 function getSuggestion(reasons, fusion) {
-  if (reasons.includes("Manque des monstres")) {
-    return "Ajoute les monstres manquants";
-  }
+  if (fusion.missing && fusion.missing.length > 0) {
+    const count = {};
+    fusion.missing.forEach(m => {
+      count[m] = (count[m] || 0) + 1;
+    });
 
-  if (reasons.includes("Polarité incompatible")) {
-    return "Ajoute un monstre de polarité différente";
+    const list = Object.entries(count)
+      .map(([name, qty]) => qty > 1 ? `${qty}x ${name}` : name)
+      .join(", ");
+
+    const chains = getFusionChain(fusion.missing);
+
+    return (
+      `Il te manque : ${list}` +
+      (chains.length > 0
+        ? `\n➡️ Tu peux créer : ${chains.join(" | ")}`
+        : "")
+    );
   }
 
   if (reasons.includes("Monstre non fusionnable")) {
@@ -97,7 +127,6 @@ function getSuggestion(reasons, fusion) {
 
   return "";
 }
-
 // ----------------------
 // APP
 // ----------------------
