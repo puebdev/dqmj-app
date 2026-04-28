@@ -74,7 +74,7 @@ function canMakeFusion(inventory, recipe) {
   const temp = [...inventory];
 
   for (let r of recipe) {
-    const index = temp.indexOf(r);
+    const index = temp.findIndex(m => m.name === r);
     if (index === -1) return false;
     temp.splice(index, 1);
   }
