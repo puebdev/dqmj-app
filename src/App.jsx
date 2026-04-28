@@ -194,6 +194,7 @@ export default function App() {
 const [bench, setBench] = useState([]);
   const [selected, setSelected] = useState("");
   const [polarity, setPolarity] = useState("neutral");
+  const [filter, setFilter] = useState("all");
   
 const addMonster = () => {
   if (!selected) return;
