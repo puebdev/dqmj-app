@@ -142,6 +142,7 @@ function getFusionResults(inventory, fusions) {
       ...f,
       valid: result.valid,
       reasons: result.reasons
+      missing: result.missing
     };
   });
 }
