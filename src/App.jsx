@@ -265,7 +265,12 @@ const fusionResults = getFusionResults(allMonsters, fusions);
 ))}
 
       <h2>Fusions possibles</h2>
-
+<select onChange={(e) => setFilter(e.target.value)}>
+  <option value="all">Toutes</option>
+  <option value="valid">Possibles</option>
+  <option value="invalid">Impossible</option>
+</select>
+      
       {fusionResults.length === 0 && <p>Aucune</p>}
 
 {fusionResults.map((f, i) => (
