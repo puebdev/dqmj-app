@@ -170,7 +170,7 @@ function getFusionResults(inventory, fusions) {
     return {
       ...f,
       valid: result.valid,
-      reasons: result.reasons
+      reasons: result.reasons,
       missing: result.missing
     };
   });
