@@ -278,7 +278,7 @@ const filteredResults = fusionResults.filter(f => {
       
       {fusionResults.length === 0 && <p>Aucune</p>}
 
-{fusionResults.map((f, i) => (
+{filteredResults.map((f, i) => (
   <div key={i} style={{ marginBottom: 10 }}>
     {f.valid ? "✅" : "❌"} {f.result} ← {f.recipe.join(" + ")}
 
