@@ -188,9 +188,9 @@ const addMonster = () => {
       <h2>Inventaire</h2>
       {inventory.map((m, i) => (
         <div key={i}>
-          {m.name} ({m.polarity})
-          {m} <button onClick={() => removeMonster(i)}>X</button>
-        </div>
+  {m.name} ({m.polarity})
+  <button onClick={() => removeMonster(i)}>X</button>
+</div>
       ))}
 
       <h2>Fusions possibles</h2>
