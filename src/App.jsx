@@ -223,8 +223,8 @@ const filteredResults = fusionResults.filter(f => {
       <select onChange={(e) => setSelected(e.target.value)}>
         <option value="">Choisir</option>
         {monsters.map((m) => (
-          <option key={m}>{m}</option>
-        ))}
+  <option key={m.name}>{m.name}</option>
+))}
       </select>
 
       <select onChange={(e) => setPolarity(e.target.value)}>
