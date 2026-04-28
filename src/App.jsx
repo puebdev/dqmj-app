@@ -223,7 +223,12 @@ if (team.length < 3) {
 
   const allMonsters = [...team, ...bench, ...inventory];
 const fusionResults = getFusionResults(allMonsters, fusions);
-
+const filteredResults = fusionResults.filter(f => {
+  if (filter === "valid") return f.valid;
+  if (filter === "invalid") return !f.valid;
+  return true;
+});
+  
   return (
     <div style={{ padding: 20 }}>
       <h1>Fusion DQMJ 2.1</h1>
