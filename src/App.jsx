@@ -103,16 +103,21 @@ function getSuggestion(reasons, fusion) {
 // ----------------------
 function analyzeFusion(inventory, fusion) {
   let reasons = [];
+  let missing = [];
 
   const temp = [...inventory];
 
   for (let r of fusion.recipe) {
     const index = temp.findIndex(m => m.name === r);
     if (index === -1) {
-      reasons.push("Manque des monstres");
-      return { valid: false, reasons };
+      missing.push(r);
+    } else {
+      temp.splice(index, 1);
     }
-    temp.splice(index, 1);
+  }
+
+  if (missing.length > 0) {
+    reasons.push("Manque des monstres");
   }
 
   const used = fusion.recipe.map(r =>
@@ -125,7 +130,8 @@ function analyzeFusion(inventory, fusion) {
 
   return {
     valid: reasons.length === 0,
-    reasons
+    reasons,
+    missing
   };
 }
 
