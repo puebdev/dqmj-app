@@ -241,7 +241,9 @@ const addMonster = () => {
       <div style={{ color: "red", fontSize: 12 }}>
         {f.reasons.join(" / ")}
         <br />
-        💡 {getSuggestion(f.reasons, f)}
+        💡 {getSuggestion(f.reasons, f).split("\n").map((line, i) => (
+  <div key={i}>{line}</div>
+))}
       </div>
     )}
   </div>
