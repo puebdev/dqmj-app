@@ -265,24 +265,25 @@ const filteredResults = fusionResults.filter(f => {
       
       {fusionResults.length === 0 && <p>Aucune</p>}
 
-{filteredResults.map((f, i) => (
-  <div key={i} style={{ marginBottom: 10 }}>
-    {f.valid ? "✅" : "❌"} {f.result} ← {f.recipe.join(" + ")}
+{filteredResults.map((f, i) => {
+  const suggestion = getSuggestion(f.reasons, f);
 
-    {!f.valid && (
-      <div style={{ color: "red", fontSize: 12 }}>
-        {f.reasons.join(" / ")}
-        <br />
-        <div>
-  <div>
-  💡 {getSuggestion(f.reasons, f).split("\n").map((line, i) => (
-    <div key={i}>{line}</div>
-  ))}
-</div>
-</div>
-    )}
-  </div>
-))}
+  return (
+    <div key={i} style={{ marginBottom: 10 }}>
+      {f.valid ? "✅" : "❌"} {f.result} ← {f.recipe.join(" + ")}
+
+      {!f.valid && (
+        <div style={{ color: "red", fontSize: 12 }}>
+          {f.reasons.join(" / ")}
+
+          <div style={{ marginTop: 5 }}>
+            💡
+            {suggestion.split("\n").map((line, idx) => (
+              <div key={idx}>{line}</div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
-    );
-}
+  );
+})}
