@@ -61,7 +61,7 @@ function canMakeFusion(inventory, recipe) {
   const temp = [...inventory];
 
   for (let r of recipe) {
-    const index = temp.findIndex(m => m.name === r);
+    const index = temp.findIndex(m => m === r);
     if (index === -1) return false;
     temp.splice(index, 1);
   }
@@ -137,7 +137,7 @@ function analyzeFusion(inventory, fusion) {
   const temp = [...inventory];
 
   for (let r of fusion.recipe) {
-    const index = temp.findIndex(m => m.name === r);
+    const index = temp.findIndex(m => m === r);
     if (index === -1) {
       missing.push(r);
     } else {
@@ -237,17 +237,17 @@ const filteredResults = fusionResults.filter(f => {
 
     <h2>Équipe</h2>
     {team.map((m, i) => (
-      <div key={i}>{m.name} ({m.polarity})</div>
+      <div key={i}>{m} ({m.polarity})</div>
     ))}
 
     <h2>Remplaçants</h2>
     {bench.map((m, i) => (
-      <div key={i}>{m.name} ({m.polarity})</div>
+      <div key={i}>{m} ({m.polarity})</div>
     ))}
 
     <h2>Réserve</h2>
     {inventory.map((m, i) => (
-      <div key={i}>{m.name} ({m.polarity})</div>
+      <div key={i}>{m} ({m.polarity})</div>
     ))}
 
     <h2>Fusions possibles</h2>
