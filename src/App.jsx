@@ -291,4 +291,3 @@ const filteredResults = fusionResults.filter(f => {
     </div>
   );
       }
-console.log("VERSION OK");
