@@ -150,7 +150,7 @@ function analyzeFusion(inventory, fusion) {
   }
 
   const used = fusion.recipe.map(r =>
-    inventory.find(m => m.name === r)
+    inventory.find(m => m === r)
   );
 
   if (used.some(m => m && !m.fusion)) {
