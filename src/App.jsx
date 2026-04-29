@@ -217,73 +217,70 @@ const filteredResults = fusionResults.filter(f => {
 });
   
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Fusion DQMJ 2.1</h1>
+  <div style={{ padding: 20 }}>
+    <h1>Fusion DQMJ 2.1</h1>
 
-      <select onChange={(e) => setSelected(e.target.value)}>
-        <option value="">Choisir</option>
-        {monsters.map((m) => (
-  <option key={m.name}>{m.name}</option>
-))}
-      </select>
+    <select onChange={(e) => setSelected(e.target.value)}>
+      <option value="">Choisir</option>
+      {monsters.map((m) => (
+        <option key={m.name}>{m.name}</option>
+      ))}
+    </select>
 
-      <select onChange={(e) => setPolarity(e.target.value)}>
-  <option value="positive">+</option>
-  <option value="negative">-</option>
-  <option value="neutral">Neutre</option>
-</select>
-      
-      <button onClick={addMonster}>Ajouter</button>
+    <select onChange={(e) => setPolarity(e.target.value)}>
+      <option value="positive">+</option>
+      <option value="negative">-</option>
+      <option value="neutral">Neutre</option>
+    </select>
 
-      <h2>Équipe</h2>
-{team.map((m, i) => (
-  <div key={i}>
-    {m.name} ({m.polarity})
-  </div>
-))}
+    <button onClick={addMonster}>Ajouter</button>
 
-<h2>Remplaçants</h2>
-{bench.map((m, i) => (
-  <div key={i}>
-    {m.name} ({m.polarity})
-  </div>
-))}
+    <h2>Équipe</h2>
+    {team.map((m, i) => (
+      <div key={i}>{m.name} ({m.polarity})</div>
+    ))}
 
-<h2>Réserve</h2>
-{inventory.map((m, i) => (
-  <div key={i}>
-    {m.name} ({m.polarity})
-  </div>
-))}
+    <h2>Remplaçants</h2>
+    {bench.map((m, i) => (
+      <div key={i}>{m.name} ({m.polarity})</div>
+    ))}
 
-      <h2>Fusions possibles</h2>
-<select onChange={(e) => setFilter(e.target.value)}>
-  <option value="all">Toutes</option>
-  <option value="valid">Possibles</option>
-  <option value="invalid">Impossible</option>
-</select>
-      
-      {fusionResults.length === 0 && <p>Aucune</p>}
+    <h2>Réserve</h2>
+    {inventory.map((m, i) => (
+      <div key={i}>{m.name} ({m.polarity})</div>
+    ))}
 
-{filteredResults.map((f, i) => {
-  const suggestion = getSuggestion(f.reasons, f);
+    <h2>Fusions possibles</h2>
 
-  return (
-    <div key={i} style={{ marginBottom: 10 }}>
-      {f.valid ? "✅" : "❌"} {f.result} ← {f.recipe.join(" + ")}
+    <select onChange={(e) => setFilter(e.target.value)}>
+      <option value="all">Toutes</option>
+      <option value="valid">Possibles</option>
+      <option value="invalid">Impossible</option>
+    </select>
 
-      {!f.valid && (
-        <div style={{ color: "red", fontSize: 12 }}>
-          {f.reasons.join(" / ")}
+    {filteredResults.length === 0 && <p>Aucune</p>}
 
-          <div style={{ marginTop: 5 }}>
-            💡
-            {suggestion.split("\n").map((line, idx) => (
-              <div key={idx}>{line}</div>
-            ))}
-          </div>
+    {filteredResults.map((f, i) => {
+      const suggestion = getSuggestion(f.reasons, f);
+
+      return (
+        <div key={i} style={{ marginBottom: 10 }}>
+          {f.valid ? "✅" : "❌"} {f.result} ← {f.recipe.join(" + ")}
+
+          {!f.valid && (
+            <div style={{ color: "red", fontSize: 12 }}>
+              {f.reasons.join(" / ")}
+
+              <div style={{ marginTop: 5 }}>
+                💡
+                {suggestion.split("\n").map((line, idx) => (
+                  <div key={idx}>{line}</div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  );
-})}
+      );
+    })}
+  </div>
+);
