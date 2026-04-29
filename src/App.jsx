@@ -186,14 +186,18 @@ const [bench, setBench] = useState([]);
 const addMonster = () => {
   if (!selected) return;
 
-  const newMonster = {
   const monsterData = monsters.find(m => m.name === selected);
 
-const newMonster = {
-  name: selected,
-  fusion: true,
-  polarity: monsterData?.polarity || polarity
-};
+  const newMonster = {
+    name: selected,
+    fusion: true,
+    polarity: polarity
+  };
+
+  setInventory([
+    ...inventory,
+    newMonster
+  ]);
 };
 
 if (team.length < 3) {
