@@ -186,29 +186,21 @@ const [bench, setBench] = useState([]);
 const addMonster = () => {
   if (!selected) return;
 
-  const monsterData = monsters.find(m => m.name === selected);
-
   const newMonster = {
     name: selected,
     fusion: true,
     polarity: polarity
   };
 
-  setInventory([
-    ...inventory,
-    newMonster
-  ]);
+  if (team.length < 3) {
+    setTeam([...team, newMonster]);
+  } else if (bench.length < 3) {
+    setBench([...bench, newMonster]);
+  } else {
+    setInventory([...inventory, newMonster]);
+  }
 };
 
-if (team.length < 3) {
-  setTeam([...team, newMonster]);
-} else if (bench.length < 3) {
-  setBench([...bench, newMonster]);
-} else {
-  setInventory([...inventory, newMonster]);
-       }
-
-};
 
   const removeMonster = (index) => {
     const copy = [...inventory];
