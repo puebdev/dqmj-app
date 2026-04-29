@@ -284,3 +284,4 @@ const filteredResults = fusionResults.filter(f => {
     })}
   </div>
 );
+}
