@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // ----------------------
 // BASE MONSTRES (extrait)
 // ----------------------
-import monsters from "./data/monsters.js";
+import { monsters } from "./data/monsters.js";
 
 // ----------------------
 // FUSIONS RÉELLES
