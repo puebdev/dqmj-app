@@ -273,10 +273,13 @@ const filteredResults = fusionResults.filter(f => {
       <div style={{ color: "red", fontSize: 12 }}>
         {f.reasons.join(" / ")}
         <br />
-        💡 {getSuggestion(f.reasons, f).split("\n").map((line, i) => (
-  <div key={i}>{line}</div>
-))}
-      </div>
+        <div>
+  <div>
+  💡 {getSuggestion(f.reasons, f).split("\n").map((line, i) => (
+    <div key={i}>{line}</div>
+  ))}
+</div>
+</div>
     )}
   </div>
 ))}
