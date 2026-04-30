@@ -217,22 +217,8 @@ const filteredResults = fusionResults.filter(f => {
 });
   
   return (
-  <div style={{ padding: 20 }}>
-    <h1>Fusion DQMJ</h1>
-
-    <select onChange={(e) => setSelected(e.target.value)}>
-      <option value="">Choisir</option>
-      {monsters.map((m, i) => (
-        <option key={i}>{m}</option>
-      ))}
-    </select>
-
-    <button onClick={addMonster}>Ajouter</button>
-
-    <h2>Monstres</h2>
-    {inventory.map((m, i) => (
-      <div key={i}>{m.name}</div>
-    ))}
+  <div>
+    <h1>OK</h1>
   </div>
 );
 }
