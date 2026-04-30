@@ -1,33 +1,44 @@
-import React, { useState } from "react";
-import { monsters } from "./data/monsters.js";
+import React, { useState, useMemo } from "react"; import { monsters } from "./data/monsters.js";
 
-export default function App() {
-  const [selected, setSelected] = useState("");
-  const [inventory, setInventory] = useState([]);
+// Exemple simple de fusions (à compléter) const fusions = [ { result: "Roi Gluant", parents: ["Gluant", "Gluant"], rank: "B" }, { result: "Gigluant", parents: ["Gluant", "Gluant"], rank: "D" }, { result: "Fri-Fri", parents: ["Komodor", "Vampivol"], rank: "C" } ];
 
-  const addMonster = () => {
-    if (!selected) return;
+const rankOrder = ["S","A","B","C","D","E","F"];
 
-    setInventory([...inventory, selected]);
-  };
+export default function App() { const [search, setSearch] = useState(""); const [inventory, setInventory] = useState([]); const [polarity, setPolarity] = useState("neutral");
 
-  return (
-    <div style={{ padding: 20 }}>
-      <h1>DQMJ Test</h1>
+const filteredMonsters = useMemo(() => { return monsters.filter(m => m.name.toLowerCase().includes(search.toLowerCase()) ); }, [search]);
 
-      <select onChange={(e) => setSelected(e.target.value)}>
-        <option value="">Choisir</option>
-        {monsters.map((m, i) => (
-          <option key={i}>{m.name}</option>
-        ))}
-      </select>
+const addMonster = (name) => { setInventory([...inventory, { name, polarity }]); };
 
-      <button onClick={addMonster}>Ajouter</button>
+const fusionResults = useMemo(() => { return fusions .map(f => { const owned = f.parents.filter(p => inventory.some(m => m.name === p) );
 
-      <h2>Inventaire</h2>
-      {inventory.map((m, i) => (
-        <div key={i}>{m}</div>
-      ))}
-    </div>
+return {
+      ...f,
+      ownedCount: owned.length
+    };
+  })
+  .sort((a, b) =>
+    rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
   );
-}
+
+}, [inventory]);
+
+return ( <div style={{ padding: 20 }}> <h1>DQMJ Fusion Lite</h1>
+
+{/* Recherche */}
+  <input
+    placeholder="Rechercher monstre..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+
+  {/* Polarité */}
+  <div>
+    <label><input type="radio" onChange={() => setPolarity("positive")} /> +</label>
+    <label><input type="radio" onChange={() => setPolarity("negative")} /> -</label>
+    <label><input type="radio" onChange={() => setPolarity("neutral")} /> neutre</label>
+  </div>
+
+  {/* Résultats recherche */}
+  <div>
+    {filteredMonsters.slice(0,20).map((m, i
