@@ -8,7 +8,7 @@ const rankOrder = ["X","S","A","B","C","D","E","F"];
 
 const fusion = fusions.find(f => f.result === target); if (!fusion) return [];
 
-let result = [${target} ← ${fusion.parents.join(" + ")}];
+let result = [`${target} ← ${fusion.parents.join(" + ")}`];
 
 fusion.parents.forEach(p => { result = result.concat(buildChain(p, depth + 1)); });
 
