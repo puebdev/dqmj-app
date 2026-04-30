@@ -95,6 +95,28 @@ return ( <div style={{ padding: 20 }}> <h1>DQMJ Fusion Lite</h1>
       ))}
     </div>
   )}
+
+  {/* 🎯 OBJECTIF INTELLIGENT */}
+  <h2>Objectif</h2>
+
+  {target && (
+    <div style={{ marginTop: 10 }}>
+      {(() => {
+        const fusion = fusions.find(f => f.result === target);
+        if (!fusion) return <div>Aucune fusion trouvée</div>;
+
+        return fusion.parents.map((p, i) => {
+          const owned = inventory.some(m => m.name === p);
+
+          return (
+            <div key={i}>
+              {owned ? "✅" : "❌"} {p}
+            </div>
+          );
+        });
+      })()}
+    </div>
+  )}
 </div>
 
 ); }
