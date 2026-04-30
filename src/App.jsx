@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+    import React, { useState, useMemo } from "react";
 import { monsters } from "./data/monsters.js";
 
 // Fusions exemple
@@ -10,7 +10,7 @@ const fusions = [
 
 const rankOrder = ["X","S","A","B","C","D","E","F"];
 
-// 🔎 CHAÎNE DE FUSION
+// 🔎 CHAÎNE DE FUSION (UNE SEULE FOIS)
 function buildChain(target, depth = 0) {
   if (depth > 3) return [];
 
@@ -26,124 +26,116 @@ function buildChain(target, depth = 0) {
   return result;
 }
 
-function buildChain(target, depth = 0) {
-  if (depth > 3) return [];
+export default function App() {
+  const [search, setSearch] = useState("");
+  const [inventory, setInventory] = useState([]);
+  const [polarity, setPolarity] = useState("neutral");
+  const [target, setTarget] = useState("");
 
-  const fusion = fusions.find(f => f.result === target);
-  if (!fusion) return [];
+  const filteredMonsters = useMemo(() => {
+    return monsters.filter(m =>
+      m.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search]);
 
-  let result = [`${target} ← ${fusion.parents.join(" + ")}`];
+  const addMonster = (name) => {
+    setInventory([...inventory, { name, polarity }]);
+  };
 
-  fusion.parents.forEach(p => {
-    result = result.concat(buildChain(p, depth + 1));
-  });
+  const fusionResults = useMemo(() => {
+    return fusions
+      .map(f => {
+        const owned = f.parents.filter(p =>
+          inventory.some(m => m.name === p)
+        );
 
-  return result;
-}
+        return {
+          ...f,
+          ownedCount: owned.length
+        };
+      })
+      .sort((a, b) =>
+        rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
+      );
+  }, [inventory]);
 
-export default function App() { const [search, setSearch] = useState(""); const [inventory, setInventory] = useState([]); const [polarity, setPolarity] = useState("neutral"); const [target, setTarget] = useState("");
+  const chain = target ? buildChain(target) : [];
 
-const filteredMonsters = useMemo(() => { return monsters.filter(m => m.name.toLowerCase().includes(search.toLowerCase()) ); }, [search]);
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>DQMJ Fusion Lite</h1>
 
-const addMonster = (name) => { setInventory([...inventory, { name, polarity }]); };
+      <input
+        placeholder="Rechercher monstre..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
-const fusionResults = useMemo(() => { return fusions .map(f => { const owned = f.parents.filter(p => inventory.some(m => m.name === p) );
-
-return {
-      ...f,
-      ownedCount: owned.length
-    };
-  })
-  .sort((a, b) =>
-    rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
-  );
-
-}, [inventory]);
-
-const chain = target ? buildChain(target) : [];
-
-return ( <div style={{ padding: 20 }}> <h1>DQMJ Fusion Lite</h1>
-
-{/* Recherche ajout */}
-  <input
-    placeholder="Rechercher monstre..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
-
-  {/* Polarité */}
-  <div>
-    <label><input type="radio" onChange={() => setPolarity("positive")} /> +</label>
-    <label><input type="radio" onChange={() => setPolarity("negative")} /> -</label>
-    <label><input type="radio" onChange={() => setPolarity("neutral")} /> neutre</label>
-  </div>
-
-  {/* Résultats recherche */}
-  <div>
-    {filteredMonsters.slice(0,20).map((m, i) => (
-      <div key={i} onClick={() => addMonster(m.name)} style={{ cursor: "pointer" }}>
-        {m.name}
+      <div>
+        <label><input type="radio" onChange={() => setPolarity("positive")} /> +</label>
+        <label><input type="radio" onChange={() => setPolarity("negative")} /> -</label>
+        <label><input type="radio" onChange={() => setPolarity("neutral")} /> neutre</label>
       </div>
-    ))}
-  </div>
 
-  {/* Inventaire */}
-  <h2>Inventaire</h2>
-  {inventory.map((m, i) => (
-    <div key={i}>{m.name} ({m.polarity})</div>
-  ))}
+      <div>
+        {filteredMonsters.slice(0,20).map((m, i) => (
+          <div key={i} onClick={() => addMonster(m.name)} style={{ cursor: "pointer" }}>
+            {m.name}
+          </div>
+        ))}
+      </div>
 
-  {/* Fusions */}
-  <h2>Fusions</h2>
-  {fusionResults.map((f, i) => (
-    <div key={i}>
-      {f.result} ({f.rank}) → {f.parents.join(" + ")}
-      <span>
-        {f.ownedCount === 2 && " ✅"}
-        {f.ownedCount === 1 && " ⚠️"}
-        {f.ownedCount === 0 && " ❌"}
-      </span>
-    </div>
-  ))}
-
-  {/* 🔎 RECHERCHE INVERSÉE */}
-  <h2>Recherche fusion</h2>
-
-  <input
-    placeholder="Ex: Roi Gluant"
-    value={target}
-    onChange={(e) => setTarget(e.target.value)}
-  />
-
-  {chain.length > 0 && (
-    <div style={{ marginTop: 10 }}>
-      {chain.map((step, i) => (
-        <div key={i}>{step}</div>
+      <h2>Inventaire</h2>
+      {inventory.map((m, i) => (
+        <div key={i}>{m.name} ({m.polarity})</div>
       ))}
+
+      <h2>Fusions</h2>
+      {fusionResults.map((f, i) => (
+        <div key={i}>
+          {f.result} ({f.rank}) → {f.parents.join(" + ")}
+          <span>
+            {f.ownedCount === 2 && " ✅"}
+            {f.ownedCount === 1 && " ⚠️"}
+            {f.ownedCount === 0 && " ❌"}
+          </span>
+        </div>
+      ))}
+
+      <h2>Recherche fusion</h2>
+      <input
+        placeholder="Ex: Roi Gluant"
+        value={target}
+        onChange={(e) => setTarget(e.target.value)}
+      />
+
+      {chain.length > 0 && (
+        <div style={{ marginTop: 10 }}>
+          {chain.map((step, i) => (
+            <div key={i}>{step}</div>
+          ))}
+        </div>
+      )}
+
+      <h2>Objectif</h2>
+      {target && (
+        <div style={{ marginTop: 10 }}>
+          {(() => {
+            const fusion = fusions.find(f => f.result === target);
+            if (!fusion) return <div>Aucune fusion trouvée</div>;
+
+            return fusion.parents.map((p, i) => {
+              const owned = inventory.some(m => m.name === p);
+
+              return (
+                <div key={i}>
+                  {owned ? "✅" : "❌"} {p}
+                </div>
+              );
+            });
+          })()}
+        </div>
+      )}
     </div>
-  )}
-
-  {/* 🎯 OBJECTIF INTELLIGENT */}
-  <h2>Objectif</h2>
-
-  {target && (
-    <div style={{ marginTop: 10 }}>
-      {(() => {
-        const fusion = fusions.find(f => f.result === target);
-        if (!fusion) return <div>Aucune fusion trouvée</div>;
-
-        return fusion.parents.map((p, i) => {
-          const owned = inventory.some(m => m.name === p);
-
-          return (
-            <div key={i}>
-              {owned ? "✅" : "❌"} {p}
-            </div>
-          );
-        });
-      })()}
-    </div>
-  )}
-</div>
-
-); }
+  );
+}
