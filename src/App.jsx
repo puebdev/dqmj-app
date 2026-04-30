@@ -219,6 +219,13 @@ const filteredResults = fusionResults.filter(f => {
   return (
   <div>
     <h1>OK</h1>
+
+    <select onChange={(e) => setSelected(e.target.value)}>
+      <option value="">Choisir</option>
+      {monsters.map((m, i) => (
+        <option key={i}>{m}</option>
+      ))}
+    </select>
   </div>
 );
 }
