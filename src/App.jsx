@@ -4,15 +4,20 @@ import React, { useState, useMemo } from "react"; import { monsters } from "./da
 
 const rankOrder = ["X","S","A","B","C","D","E","F"];
 
-// 🔎 CHAÎNE DE FUSION function buildChain(target, depth = 0) { if (depth > 3) return [];
+// 🔎 CHAÎNE DE FUSION function buildChain(target, depth = 0) {
+  if (depth > 3) return [];
 
-const fusion = fusions.find(f => f.result === target); if (!fusion) return [];
+  const fusion = fusions.find(f => f.result === target);
+  if (!fusion) return [];
 
-let result = [`${target} ← ${fusion.parents.join(" + ")}`];
+  let result = [`${target} ← ${fusion.parents.join(" + ")}`];
 
-fusion.parents.forEach(p => { result = result.concat(buildChain(p, depth + 1)); });
+  fusion.parents.forEach(p => {
+    result = result.concat(buildChain(p, depth + 1));
+  });
 
-return result; }
+  return result;
+}
 
 export default function App() { const [search, setSearch] = useState(""); const [inventory, setInventory] = useState([]); const [polarity, setPolarity] = useState("neutral"); const [target, setTarget] = useState("");
 
