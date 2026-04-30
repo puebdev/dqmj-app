@@ -1,10 +1,32 @@
-import React, { useState, useMemo } from "react"; import { monsters } from "./data/monsters.js";
+import React, { useState, useMemo } from "react";
+import { monsters } from "./data/monsters.js";
 
-// Fusions exemple const fusions = [ { result: "Roi Gluant", parents: ["Gluant", "Gluant"], rank: "B" }, { result: "Gigluant", parents: ["Gluant", "Gluant"], rank: "D" }, { result: "Fri-Fri", parents: ["Komodor", "Vampivol"], rank: "C" } ];
+// Fusions exemple
+const fusions = [
+  { result: "Roi Gluant", parents: ["Gluant", "Gluant"], rank: "B" },
+  { result: "Gigluant", parents: ["Gluant", "Gluant"], rank: "D" },
+  { result: "Fri-Fri", parents: ["Komodor", "Vampivol"], rank: "C" }
+];
 
 const rankOrder = ["X","S","A","B","C","D","E","F"];
 
-// 🔎 CHAÎNE DE FUSION function buildChain(target, depth = 0) {
+// 🔎 CHAÎNE DE FUSION
+function buildChain(target, depth = 0) {
+  if (depth > 3) return [];
+
+  const fusion = fusions.find(f => f.result === target);
+  if (!fusion) return [];
+
+  let result = [`${target} ← ${fusion.parents.join(" + ")}`];
+
+  fusion.parents.forEach(p => {
+    result = result.concat(buildChain(p, depth + 1));
+  });
+
+  return result;
+}
+
+function buildChain(target, depth = 0) {
   if (depth > 3) return [];
 
   const fusion = fusions.find(f => f.result === target);
