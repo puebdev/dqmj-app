@@ -137,21 +137,6 @@ export default function App() {
   );
 })}
 
-      <h2>Recherche fusion</h2>
-      <input
-        placeholder="Ex: Roi Gluant"
-        value={target}
-        onChange={(e) => setTarget(e.target.value)}
-      />
-
-      {chain.length > 0 && (
-        <div style={{ marginTop: 10 }}>
-          {chain.map((step, i) => (
-            <div key={i}>{step}</div>
-          ))}
-        </div>
-      )}
-
       <h2>Objectif</h2>
       {target && (
         <div style={{ marginTop: 10 }}>
