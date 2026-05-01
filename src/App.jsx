@@ -98,10 +98,18 @@ export default function App() {
         ))}
       </div>
 
-      <h2>Inventaire</h2>
-      {inventory.map((m, i) => (
-        <div key={i}>{m.name} ({m.polarity})</div>
-      ))}
+      <button onClick={() => setShowInventory(!showInventory)}>
+  {showInventory ? "Masquer inventaire" : "Voir inventaire"}
+</button>
+
+{showInventory && (
+  <>
+    <h2>Inventaire</h2>
+    {inventory.map((m, i) => (
+      <div key={i}>{m.name} ({m.polarity})</div>
+    ))}
+  </>
+)}
 
       <h2>Fusions</h2>
     {fusionResults.map((f, i) => {
