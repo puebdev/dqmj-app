@@ -43,6 +43,7 @@ export default function App() {
   const [inventory, setInventory] = useState([]);
   const [polarity, setPolarity] = useState("neutral");
   const [target, setTarget] = useState("");
+  const [showInventory, setShowInventory] = useState(false);
 
   const filteredMonsters = useMemo(() => {
     return monsters.filter(m =>
