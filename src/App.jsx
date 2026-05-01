@@ -3,8 +3,20 @@ import { monsters } from "./data/monsters.js";
 
 // Fusions exemple
 const fusions = [
-  { result: "Roi Gluant", parents: ["Gluant", "Gluant"], rank: "B" },
-  { result: "Gigluant", parents: ["Gluant", "Gluant"], rank: "D" },
+  // Roi Gluant (recettes réelles)
+  { result: "Roi Gluant", parents: ["Gigluant", "Gigluant"], rank: "B" },
+  { result: "Roi Gluant", parents: ["Gluant", "Gluant", "Gluant", "Gluant"], rank: "B" },
+
+  // Lézard Argon
+  { result: "Lézard Argon", parents: ["Komodor", "Faune"], rank: "C" },
+
+  // Grand Lézard Argon
+  { result: "Grand Lézard Argon", parents: ["Lézard Argon", "Lézard Argon", "Lézard Argon", "Lézard Argon"], rank: "B" },
+
+  // Frou-Frou
+  { result: "Frou-Frou", parents: ["Lézard Argon", "Lézard Argon", "Lézard Argon", "Grand Lézard Argon"], rank: "A" },
+
+  // Fri-Fri
   { result: "Fri-Fri", parents: ["Komodor", "Vampivol"], rank: "C" }
 ];
 
