@@ -104,16 +104,38 @@ export default function App() {
       ))}
 
       <h2>Fusions</h2>
-      {fusionResults.map((f, i) => (
-        <div key={i}>
-          {f.result} ({f.rank}) → {f.parents.join(" + ")}
-          <span>
-            {f.ownedCount === 2 && " ✅"}
-            {f.ownedCount === 1 && " ⚠️"}
-            {f.ownedCount === 0 && " ❌"}
-          </span>
-        </div>
-      ))}
+    {fusionResults.map((f, i) => {
+  const owned = f.parents.filter(p =>
+    inventory.some(m => m.name === p)
+  );
+
+  const missing = f.parents.filter(p =>
+    !inventory.some(m => m.name === p)
+  );
+
+  const isComplete = owned.length === f.parents.length;
+  const isPartial = owned.length > 0 && !isComplete;
+
+  return (
+    <div
+      key={i}
+      onClick={() => {
+        if (isPartial) {
+          alert("Il manque : " + missing.join(", "));
+        }
+      }}
+      style={{
+        opacity: isComplete ? 1 : isPartial ? 0.5 : 0.2,
+        cursor: isPartial ? "pointer" : "default",
+        marginBottom: 10,
+        border: "1px solid #ccc",
+        padding: 10
+      }}
+    >
+      <strong>{f.result}</strong> ({f.rank})
+    </div>
+  );
+})}
 
       <h2>Recherche fusion</h2>
       <input
