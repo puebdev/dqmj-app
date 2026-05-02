@@ -1,5 +1,3 @@
-const baseUrl = /public/monsters/
-
 export const monsters = [
 { name:"Abyssaure",family:"Dragon",rank:"B"},
 { name:"Aligatueur",family:"Naturel",rank:"A"},
