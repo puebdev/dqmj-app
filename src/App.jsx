@@ -1,4 +1,4 @@
-    import React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { monsters } from "./data/monsters.js";
 
 // Fusions exemple
@@ -43,7 +43,6 @@ export default function App() {
   const [inventory, setInventory] = useState([]);
   const [polarity, setPolarity] = useState("neutral");
   const [target, setTarget] = useState("");
-  const [showInventory, setShowInventory] = useState(false);
 
   const filteredMonsters = useMemo(() => {
     return monsters.filter(m =>
@@ -98,52 +97,37 @@ export default function App() {
         ))}
       </div>
 
-      <button onClick={() => setShowInventory(!showInventory)}>
-  {showInventory ? "Masquer inventaire" : "Voir inventaire"}
-</button>
-
-{showInventory && (
-  <>
-    <h2>Inventaire</h2>
-    {inventory.map((m, i) => (
-      <div key={i}>{m.name} ({m.polarity})</div>
-    ))}
-  </>
-)}
+      <h2>Inventaire</h2>
+      {inventory.map((m, i) => (
+        <div key={i}>{m.name} ({m.polarity})</div>
+      ))}
 
       <h2>Fusions</h2>
-    {fusionResults.map((f, i) => {
-  const owned = f.parents.filter(p =>
-    inventory.some(m => m.name === p)
-  );
+      {fusionResults.map((f, i) => (
+        <div key={i}>
+          {f.result} ({f.rank}) → {f.parents.join(" + ")}
+          <span>
+            {f.ownedCount === 2 && " ✅"}
+            {f.ownedCount === 1 && " ⚠️"}
+            {f.ownedCount === 0 && " ❌"}
+          </span>
+        </div>
+      ))}
 
-  const missing = f.parents.filter(p =>
-    !inventory.some(m => m.name === p)
-  );
+      <h2>Recherche fusion</h2>
+      <input
+        placeholder="Ex: Roi Gluant"
+        value={target}
+        onChange={(e) => setTarget(e.target.value)}
+      />
 
-  const isComplete = owned.length === f.parents.length;
-  const isPartial = owned.length > 0 && !isComplete;
-
-  return (
-    <div
-      key={i}
-      onClick={() => {
-        if (isPartial) {
-          alert("Il manque : " + missing.join(", "));
-        }
-      }}
-      style={{
-        opacity: isComplete ? 1 : isPartial ? 0.5 : 0.2,
-        cursor: isPartial ? "pointer" : "default",
-        marginBottom: 10,
-        border: "1px solid #ccc",
-        padding: 10
-      }}
-    >
-      <strong>{f.result}</strong> ({f.rank})
-    </div>
-  );
-})}
+      {chain.length > 0 && (
+        <div style={{ marginTop: 10 }}>
+          {chain.map((step, i) => (
+            <div key={i}>{step}</div>
+          ))}
+        </div>
+      )}
 
       <h2>Objectif</h2>
       {target && (
@@ -166,4 +150,4 @@ export default function App() {
       )}
     </div>
   );
-}
+                          }
